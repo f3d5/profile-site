@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>guns.lol Inspired Profile</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #0a0a0a;
+      color: #d1d1d1;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .drop {
+      position: absolute;
+      top: -100px; /* Start above the screen */
+      width: 1px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.05);
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(120vh);
+      }
+    }
+
+    .profile-card {
+  position: relative;
+  z-index: 1;
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+/* Fade-in animation */
+@keyframes fade-in {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+    .profile-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      border: 2px solid #444;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.3rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: #aaa;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      background-color: #2a2a2a;
+      color: #ddd;
+      border: 1px solid #444;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+      margin: 0.3rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #3a3a3a;
+      transform: scale(1.05);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body>
+  <!-- Rain Container -->
+  <div class="rain" id="rain-container"></div>
+
+  <!-- Profile Card -->
+  <div class="profile-card">
+    <img src="https://i.imgur.com/uVQhvGG.jpeg" alt="Avatar" class="avatar">
+    <h1>Hazy</h1>
+    <p>Small Producer and Nujabes Meatrider<br><br>
+
+hazyprod on discord </p>
+    <div class="buttons">
+      <a href="https://www.youtube.com/@producerhazy" target="_blank" class="btn">YouTube</a>
+    </div>
+  </div>
+
+  <!-- Rain Drops Script -->
+  <script>
+    const rainContainer = document.getElementById('rain-container');
+    const drops = 100;
+
+    for (let i = 0; i < drops; i++) {
+      const drop = document.createElement('div');
+      drop.classList.add('drop');
+      drop.style.left = `${Math.random() * 100}%`;
+      drop.style.animationDuration = `${0.5 + Math.random()}s`;
+      drop.style.animationDelay = `${Math.random() * 5}s`;
+      rainContainer.appendChild(drop);
+    }
+  </script>
+ <audio id="bgmusic" autoplay loop>
+  <source src="https://media.vocaroo.com/mp3/19xZdVI4162E" type="audio/mpeg">
+</audio>
+
+<script>
+  const audio = document.getElementById('bgmusic');
+  audio.volume = 0.01; // Low background volume
+</script>
+</body>
+</html>
