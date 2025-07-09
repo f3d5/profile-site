@@ -21,6 +21,8 @@
       justify-content: center;
       align-items: center;
       position: relative;
+      flex-direction: column;
+      padding: 2rem;
     }
 
     .rain {
@@ -52,28 +54,34 @@
     }
 
     .profile-card {
-  position: relative;
-  z-index: 1;
-  background-color: #111;
-  border: 1px solid #333;
-  border-radius: 16px;
-  padding: 2rem;
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-  opacity: 0;
-  transform: scale(0.95);
-  animation: fade-in 0.8s ease-out forwards;
-}
+      position: relative;
+      z-index: 1;
+      background-color: #111;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.95);
+      animation: fade-in 0.8s ease-out forwards;
+    }
 
-/* Fade-in animation */
-@keyframes fade-in {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
+    /* Fade-in animation */
+    @keyframes fade-in {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
 
+    /* Slow fade-in for music button */
+    @keyframes fade-in-slow {
+      to {
+        opacity: 1;
+      }
+    }
 
     .profile-card:hover {
       transform: translateY(-5px);
@@ -98,6 +106,7 @@
       font-size: 0.95rem;
       color: #aaa;
       margin-bottom: 1.5rem;
+      line-height: 1.4;
     }
 
     .btn {
@@ -110,6 +119,10 @@
       display: inline-block;
       margin: 0.3rem;
       transition: background-color 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+      user-select: none;
+      font-size: 1rem;
+      line-height: 1;
     }
 
     .btn:hover {
@@ -120,6 +133,29 @@
     .btn:active {
       transform: scale(0.97);
     }
+
+    /* Music toggle button style with fade-in */
+    #music-btn {
+      font-size: 1.5rem;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
+      border-radius: 8px;
+      opacity: 0; /* Start invisible */
+      animation: fade-in-slow 1s ease forwards;
+      animation-delay: 0.5s; /* faster fade in after main panel */
+      background-color: #2a2a2a;
+      border: 1px solid #444;
+      color: #ddd;
+      transition: background-color 0.3s ease;
+    }
+    #music-btn.active {
+      background-color: #444;
+      border-color: #666;
+    }
   </style>
 </head>
 <body>
@@ -128,18 +164,24 @@
 
   <!-- Profile Card -->
   <div class="profile-card">
-    <img src="https://i.imgur.com/uVQhvGG.jpeg" alt="Avatar" class="avatar">
+    <img src="https://i.imgur.com/uVQhvGG.jpeg" alt="Avatar" class="avatar" />
     <h1>Hazy</h1>
-    <p>Small Producer and Nujabes Meatrider<br><br>
-
-hazyprod on discord </p>
+    <p>Small Producer and Nujabes Meatrider<br><br>hazyprod on discord</p>
     <div class="buttons">
       <a href="https://www.youtube.com/@producerhazy" target="_blank" class="btn">YouTube</a>
     </div>
   </div>
 
-  <!-- Rain Drops Script -->
+  <!-- Music Toggle Button -->
+  <button id="music-btn" class="btn" aria-label="Toggle Background Music">🎵</button>
+
+  <!-- Background Music -->
+  <audio id="bgmusic" loop>
+    <source src="https://media.vocaroo.com/mp3/19xZdVI4162E" type="audio/mpeg" />
+  </audio>
+
   <script>
+    // Rain generation
     const rainContainer = document.getElementById('rain-container');
     const drops = 100;
 
@@ -151,14 +193,25 @@ hazyprod on discord </p>
       drop.style.animationDelay = `${Math.random() * 5}s`;
       rainContainer.appendChild(drop);
     }
-  </script>
- <audio id="bgmusic" autoplay loop>
-  <source src="https://media.vocaroo.com/mp3/19xZdVI4162E" type="audio/mpeg">
-</audio>
 
-<script>
-  const audio = document.getElementById('bgmusic');
-  audio.volume = 0.01; // Low background volume
-</script>
+    // Music toggle logic
+    const musicBtn = document.getElementById('music-btn');
+    const audio = document.getElementById('bgmusic');
+    let isPlaying = false;
+
+    musicBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        audio.pause();
+        audio.currentTime = 0;
+        isPlaying = false;
+        musicBtn.classList.remove('active');
+      } else {
+        audio.volume = 0.05;
+        audio.play().catch(() => {});
+        isPlaying = true;
+        musicBtn.classList.add('active');
+      }
+    });
+  </script>
 </body>
 </html>
